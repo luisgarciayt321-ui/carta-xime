@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta Romántica</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1.5s ease-in-out;
+  }
+
+  #login {
+    text-align: center;
+    background: rgba(255, 192, 203, 0.8);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  }
+
+  #login input[type="password"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+
+  #login button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background-color: #ff69b4;
+    color: white;
+    cursor: pointer;
+  }
+
+  #carta {
+    display: none;
+    max-width: 600px;
+    background: rgba(255, 240, 245, 0.8);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    color: #333;
+    line-height: 1.6;
+    font-size: 18px;
+    position: relative;
+  }
+
+  #carta h1 {
+    color: #ff1493;
+    margin-bottom: 20px;
+  }
+
+  .parrafo {
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+</style>
+</head>
+<body>
+
+<div id="login">
+  <h2>Introduce la contraseña</h2>
+  <input type="password" id="password" placeholder="Contraseña">
+  <button onclick="checkPassword()">Entrar</button>
+</div>
+
+<div id="carta">
+  <h1>❤️Xime❤️</h1>
+  <p class="parrafo">Sé que no llevamos mucho tiempo hablando, pero siento que te conozco de toda la vida. Hay algo en la forma en que conectamos que me hace sentir como si hubieran pasado años en lugar de semanas.</p>
+  <p class="parrafo">Disfruto mucho nuestras conversaciones, especialmente cuando hacemos llamadas. Me encanta escuchar tu voz y reír contigo. Hay algo muy especial en esos momentos para mí.</p>
+  <p class="parrafo">Quería decirte que me gustas mucho. No sé exactamente qué significa esto para ti, pero necesitaba que lo supieras.</p>
+  <p class="parrafo">Con cariño,<br>Luis</p>
+</div>
+
+<script>
+  const passwordCorrecta = "te amo xime";
+  const loginDiv = document.getElementById("login");
+  const cartaDiv = document.getElementById("carta");
+
+  function checkPassword() {
+    const userPass = document.getElementById("password").value;
+    if(userPass.toLowerCase() === passwordCorrecta){
+      loginDiv.style.display = "none";
+      cartaDiv.style.display = "block";
+      startBackgroundRotation();
+      showParagraphs();
+    } else {
+      alert("Contraseña incorrecta 😢");
+    }
+  }
+
+  const fotos = [
+    'foto1.jpg', // reemplaza con tus imágenes
+    'foto2.jpg',
+    'foto3.jpg',
+    'foto4.jpg'
+  ];
+  let index = 0;
+
+  function startBackgroundRotation() {
+    document.body.style.backgroundImage = `url('${fotos[index]}')`;
+    setInterval(() => {
+      index = (index + 1) % fotos.length;
+      document.body.style.backgroundImage = `url('${fotos[index]}')`;
+    }, 4000);
+  }
+
+  const parrafos = document.querySelectorAll(".parrafo");
+  
+  function showParagraphs() {
+    let i = 0;
+    function mostrar() {
+      if(i < parrafos.length){
+        parrafos[i].style.opacity = 1; // aparece
+        setTimeout(() => {
+          parrafos[i].style.opacity = 0; // desaparece después de 4 seg
+          i++;
+          setTimeout(mostrar, 2000); // espera un poco antes del siguiente
+        }, 4000);
+      }
+    }
+    mostrar();
+  }
+</script>
+
+</body>
+</html>
