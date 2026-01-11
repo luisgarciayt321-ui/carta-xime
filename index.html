@@ -5,72 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Carta Romántica</title>
 <style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: cover;
-    background-position: center;
-    transition: background-image 1.5s ease-in-out;
-  }
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: #fff;
+  position: relative;
+}
 
-  #login {
-    text-align: center;
-    background: rgba(255, 192, 203, 0.8);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  }
+/* Fondos */
+#background, #background2 {
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 2s ease-in-out;
+  z-index: -2;
+}
+#background2 { opacity:0; z-index:-3; }
 
-  #login input[type="password"] {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    outline: none;
-  }
+/* Fondo oscuro final */
+#overlayFinal {
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0);
+  transition: background 2s ease;
+  z-index:4;
+}
 
-  #login button {
-    padding: 10px 20px;
-    margin-left: 10px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
-    background-color: #ff69b4;
-    color: white;
-    cursor: pointer;
-  }
+/* Login */
+#login {
+  text-align: center;
+  background: rgba(255, 192, 203, 0.85);
+  padding: 50px;
+  border-radius: 25px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.4);
+  z-index: 10;
+}
+#login input { padding:12px; font-size:18px; border-radius:12px; border:1px solid #ccc; outline:none; }
+#login button { padding:12px 25px; margin-left:10px; font-size:18px; border-radius:12px; border:none; background:#ff1493; color:white; cursor:pointer; }
+#login button:hover{ background:#ff69b4; }
 
-  #carta {
-    display: none;
-    max-width: 600px;
-    background: rgba(255, 240, 245, 0.8);
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    color: #333;
-    line-height: 1.6;
-    font-size: 18px;
-    position: relative;
-  }
+/* Carta centrada */
+#carta {
+  display:none;
+  max-width:700px;
+  text-align:center;
+  background: rgba(0,0,0,0.5);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 5;
+}
 
-  #carta h1 {
-    color: #ff1493;
-    margin-bottom: 20px;
-  }
+.parrafo {
+  margin-bottom: 25px;
+  opacity: 0;
+}
 
-  .parrafo {
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-  }
+/* Texto final grande */
+#textoFinal {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+  color:#ff1493;
+  text-align:center;
+  opacity:0;
+  z-index:6;
+  transition: opacity 2s ease;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+}
 </style>
 </head>
 <body>
+
+<div id="background"></div>
+<div id="background2"></div>
+<div id="overlayFinal"></div>
+
+<!-- Música -->
+<audio id="musica" src="mi_cancion.mp3" loop></audio>
 
 <div id="login">
   <h2>Introduce la contraseña</h2>
@@ -80,61 +105,126 @@
 
 <div id="carta">
   <h1>❤️Xime❤️</h1>
-  <p class="parrafo">Sé que no llevamos mucho tiempo hablando, pero siento que te conozco de toda la vida. Hay algo en la forma en que conectamos que me hace sentir como si hubieran pasado años en lugar de semanas.</p>
-  <p class="parrafo">Disfruto mucho nuestras conversaciones, especialmente cuando hacemos llamadas. Me encanta escuchar tu voz y reír contigo. Hay algo muy especial en esos momentos para mí.</p>
-  <p class="parrafo">Quería decirte que me gustas mucho. No sé exactamente qué significa esto para ti, pero necesitaba que lo supieras.</p>
-  <p class="parrafo">Con cariño,<br>Luis</p>
+  <p class="parrafo" id="p1">Sé que no llevamos mucho tiempo hablando, pero siento que te conozco de toda la vida. Hay algo en la forma en que conectamos que me hace sentir como si hubieran pasado años en lugar de semanas.</p>
+  <p class="parrafo" id="p2">Disfruto cada segundo de nuestras conversaciones, especialmente cuando hacemos llamadas. Me encanta escuchar tu voz, sentir tu risa y compartir esos pequeños momentos que se quedan en mi corazón.</p>
+  <p class="parrafo" id="p3">Quería decirte que me gustas mucho, más de lo que puedo expresar con palabras. Espero que sientas lo especial que eres para mí, porque cada detalle tuyo me hace sonreír.</p>
+  <p class="parrafo" id="p4">Con todo mi cariño y ternura,<br>Luis</p>
 </div>
 
+<div id="textoFinal">💖 Te amo mucho 💖</div>
+
 <script>
-  const passwordCorrecta = "te amo xime";
-  const loginDiv = document.getElementById("login");
-  const cartaDiv = document.getElementById("carta");
+const passwordCorrecta = "te amo xime";
+const loginDiv = document.getElementById("login");
+const cartaDiv = document.getElementById("carta");
+const musica = document.getElementById("musica");
+const overlay = document.getElementById("overlayFinal");
+const textoFinal = document.getElementById("textoFinal");
 
-  function checkPassword() {
-    const userPass = document.getElementById("password").value;
-    if(userPass.toLowerCase() === passwordCorrecta){
-      loginDiv.style.display = "none";
-      cartaDiv.style.display = "block";
-      startBackgroundRotation();
-      showParagraphs();
-    } else {
-      alert("Contraseña incorrecta 😢");
+// Fotos de fondo
+const fotos=['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg']; 
+let current=0;
+const bg1=document.getElementById('background');
+const bg2=document.getElementById('background2');
+
+function startBackground(){
+  bg1.style.backgroundImage = `url('${fotos[current]}')`;
+  setInterval(()=>{
+    const next = (current+1)%fotos.length;
+    bg2.style.backgroundImage = `url('${fotos[next]}')`;
+    bg2.style.opacity = 1;
+    setTimeout(()=>{
+      bg1.style.backgroundImage = `url('${fotos[next]}')`;
+      bg2.style.opacity = 0;
+      current = next;
+    },2000);
+  },6000);
+}
+
+// Función para mostrar párrafo letra por letra
+function mostrarLetra(elem, velocidad, callback){
+  const texto = elem.textContent;
+  elem.textContent = "";
+  elem.style.opacity = 1;
+  let i=0;
+  const interval = setInterval(()=>{
+    elem.textContent += texto[i];
+    i++;
+    if(i >= texto.length){
+      clearInterval(interval);
+      // espera 4s y desaparece lentamente
+      setTimeout(()=>{
+        elem.style.transition = "opacity 2s ease";
+        elem.style.opacity = 0;
+        setTimeout(()=>{ if(callback) callback(); },2000);
+      },4000);
     }
-  }
+  },velocidad);
+}
 
-  const fotos = [
-    'foto1.jpg', // reemplaza con tus imágenes
-    'foto2.jpg',
-    'foto3.jpg',
-    'foto4.jpg'
-  ];
-  let index = 0;
+// Mostrar los párrafos uno tras otro y luego el texto final
+function mostrarCarta(){
+  const p1 = document.getElementById("p1");
+  const p2 = document.getElementById("p2");
+  const p3 = document.getElementById("p3");
+  const p4 = document.getElementById("p4");
 
-  function startBackgroundRotation() {
-    document.body.style.backgroundImage = `url('${fotos[index]}')`;
-    setInterval(() => {
-      index = (index + 1) % fotos.length;
-      document.body.style.backgroundImage = `url('${fotos[index]}')`;
-    }, 4000);
-  }
+  mostrarLetra(p1, 70, ()=>{
+    mostrarLetra(p2, 70, ()=>{
+      mostrarLetra(p3, 70, ()=>{
+        mostrarLetra(p4, 70, ()=>{
+          // Texto final aparece
+          textoFinal.style.opacity = 1;
+          overlay.style.background = "rgba(0,0,0,0.3)";
 
-  const parrafos = document.querySelectorAll(".parrafo");
-  
-  function showParagraphs() {
-    let i = 0;
-    function mostrar() {
-      if(i < parrafos.length){
-        parrafos[i].style.opacity = 1; // aparece
-        setTimeout(() => {
-          parrafos[i].style.opacity = 0; // desaparece después de 4 seg
-          i++;
-          setTimeout(mostrar, 2000); // espera un poco antes del siguiente
-        }, 4000);
-      }
-    }
-    mostrar();
+          // Después de 3s, todo se vuelve negro y música se desvanece
+          setTimeout(()=>{
+            overlay.style.background = "rgba(0,0,0,1)";
+            textoFinal.style.opacity = 0;
+            cartaDiv.style.opacity = 0;
+            bg1.style.opacity = 0;
+            bg2.style.opacity = 0;
+
+            // Desvanecer música
+            let fadeOut = setInterval(()=>{
+              if(musica.volume > 0.02){
+                musica.volume -= 0.02;
+              } else {
+                musica.volume = 0;
+                musica.pause();
+                clearInterval(fadeOut);
+              }
+            },100);
+          },3000);
+        });
+      });
+    });
+  });
+}
+
+// Función al entrar contraseña
+function checkPassword(){
+  const pass = document.getElementById("password").value;
+  if(pass.toLowerCase() === passwordCorrecta){
+    loginDiv.style.display = "none";
+    cartaDiv.style.display = "block";
+
+    // Iniciar música
+    musica.volume = 0;
+    musica.play().then(()=>{
+      let vol=0;
+      const fade = setInterval(()=>{
+        if(vol<1){ vol += 0.02; musica.volume = vol; } 
+        else clearInterval(fade);
+      },100);
+    }).catch(err => console.log("Error audio:", err));
+
+    startBackground();
+    mostrarCarta();
+  } else {
+    alert("Contraseña incorrecta 😢");
   }
+}
 </script>
 
 </body>
